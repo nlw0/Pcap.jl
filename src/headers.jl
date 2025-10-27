@@ -124,9 +124,7 @@ end # function ip_checksum
 function decode_ip_hdr(d::Array{UInt8})
     version     = (d[1] & 0xf0) >> 4
     length      = (d[1] & 0x0f) * 4
-    if ip_checksum(d[1:length]) == 0xFFFFFFFFFFFF0000
-        checksum = true
-    end
+    checksum    = ip_checksum(d[1:length]) == 0xFFFFFFFFFFFF0000
     services    = d[2]
     totlen      = getindex_be(UInt16, d, 3)
     id          = getindex_be(UInt16, d, 5)
